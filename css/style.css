@@ -123,3 +123,61 @@
     color: white !important;
     text-decoration: none;
 }
+
+
+
+/* Book List Page CSS */
+
+.book-container {
+    max-width: 1200px;
+    margin: 50px auto;
+    padding: 20px;
+}
+
+.book-h2 {
+    text-align: center;
+}
+
+.book-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    padding: 20px;
+}
+
+.book-item {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    transition: transform 0.3s ease;
+}
+
+.book-item:hover {
+    transform: translateY(-5px);
+}
+
+.book-name {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.book-price {
+    color: #007BFF;
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.book-description {
+    font-size: 14px;
+    color: #555;
+}
+
+.book-image {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 15px;
+    border-radius: 5px;
+}
+
