@@ -1,0 +1,105 @@
+.login-page {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(120deg, #f0f4ff, #dfe9f3);
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+}
+
+#login_main{
+    background: linear-gradient(120deg, #f0f4ff, #dfe9f3);
+}
+
+.login-container {
+    background-color: white;
+    padding: 50px 40px;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    width: 400px; /* Adjusted for better layout */
+    text-align: center;
+}
+
+.login-container h2 {
+    color: #333;
+    font-size: 26px;
+    margin-bottom: 25px;
+}
+
+.login-container input[type="email"], 
+.login-container input[type="password"] {
+    width: calc(100% - 40px); /* Adjusted width to fit within the container */
+    padding: 15px;
+    margin: 10px 0;
+    border: 1px solid #ddd;
+    border-radius: 30px;
+    background-color: #f9f9f9;
+    font-size: 16px;
+    outline: none;
+    transition: all 0.3s;
+}
+
+.login-container input[type="email"]:focus,
+.login-container input[type="password"]:focus {
+    border-color: #007bff;
+    background-color: #fff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+}
+
+.login-container .login-btn {
+    width: calc(100% - 40px); /* Adjusted width for better alignment */
+    padding: 15px;
+    margin: 20px 0;
+    background-color: #007bff;
+    border: none;
+    color: white;
+    font-size: 16px;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.login-container .login-btn:hover {
+    background-color: #0056b3;
+}
+
+.login-container .forgot-password {
+    margin-top: 10px;
+    text-align: right;
+}
+
+.login-container .forgot-password a {
+    color: #007bff;
+    text-decoration: none;
+    font-size: 14px;
+    transition: color 0.3s;
+}
+
+.login-container .forgot-password a:hover {
+    color: #0056b3;
+}
+
+.login-container .signup-link {
+    margin-top: 20px;
+    font-size: 14px;
+}
+
+.login-container .signup-link a {
+    color: #007bff;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.login-container .signup-link a:hover {
+    color: #0056b3;
+}
+
+/* Error message styling */
+.login-container .error-list {
+    list-style: none;
+    margin-bottom: 20px;
+    color: red;
+    text-align: left;
+    font-size: 14px;
+}

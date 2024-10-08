@@ -50,33 +50,39 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 }
 ?>
 
-<!DOCTYPE html>
-<html>
+<?php include 'components/header.php'; ?>
+<main id="login_main">
+    <div class="login-page">
+        <div class="login-container">
+            <h2>Login</h2>
 
-<head>
-    <title>User Login</title>
-</head>
+            <!-- Display errors if any -->
+            <?php if (!empty($errors)): ?>
+                <ul class="error-list">
+                    <?php foreach ($errors as $error): ?>
+                        <li><?php echo $error; ?></li>
+                    <?php endforeach; ?>
+                </ul>
+            <?php endif; ?>
 
-<body>
-    <h2>Login</h2>
+            <!-- Login Form -->
+            <form method="POST" action="login.php">
+                <input type="email" name="email" placeholder="Email" required>
+                <input type="password" name="password" placeholder="Password" required>
 
-    <?php
-    if (!empty($errors)) {
-        echo '<ul>';
-        foreach ($errors as $error) {
-            echo "<li>$error</li>";
-        }
-        echo '</ul>';
-    }
-    ?>
+                <!-- Forgot Password Link -->
+                <div class="forgot-password">
+                    <a href="forgot_password.php">Forgot Password?</a>
+                </div>
 
-    <form method="POST" action="login.php">
-        <label>Email:</label><br>
-        <input type="email" name="email" required><br>
-        <label>Password:</label><br>
-        <input type="password" name="password" required><br><br>
-        <input type="submit" value="Login">
-    </form>
-</body>
+                <button type="submit" class="login-btn">Login</button>
+            </form>
 
-</html>
+            <!-- Sign Up Link -->
+            <div class="signup-link">
+                <p>Don't have an account? <a href="register.php">Sign Up</a></p>
+            </div>
+        </div>
+    </div>
+</main>
+<?php include 'components/footer.php'; ?>

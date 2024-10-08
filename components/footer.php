@@ -7,7 +7,8 @@
         </div>
         <div class="row align-items-center">
             <div class="col-md-4 text-center mb-3">
-                <img src="img/logow.png" alt="Footer Logo" class="img-fluid" style="max-width: 250px;">
+                <a href="index.php"><img src="img/logow.png" alt="Footer Logo" class="img-fluid"
+                        style="max-width: 250px;"></a>
             </div>
             <div class="col-md-4 text-center mb-3">
                 <nav class="footer-nav">

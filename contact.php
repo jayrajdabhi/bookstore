@@ -33,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     } elseif (empty($messageText)) {
         $error_message = "Please enter your message.";
     } else {
-        // Proceed to insert data into database
+        // Function to insert data into database
         $name = $conn->real_escape_string($name);
         $email = $conn->real_escape_string($email);
         $subject = $conn->real_escape_string($subject);
@@ -53,48 +53,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 $conn->close();
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contact Us</title>
-    <script>
-        // JavaScript validation (client-side)
-        function validateForm() {
-            var name = document.getElementById("name").value.trim();
-            var email = document.getElementById("email").value.trim();
-            var subject = document.getElementById("subject").value.trim();
-            var message = document.getElementById("message").value.trim();
-
-            if (name == "") {
-                alert("Please enter your name.");
-                return false;
-            }
-            if (email == "") {
-                alert("Please enter your email.");
-                return false;
-            }
-            var emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
-            if (!emailPattern.test(email)) {
-                alert("Please enter a valid email address.");
-                return false;
-            }
-            if (subject == "") {
-                alert("Please enter the subject.");
-                return false;
-            }
-            if (message == "") {
-                alert("Please enter your message.");
-                return false;
-            }
-            return true;
-        }
-    </script>
-</head>
-
-<body>
+<?php include 'components/header.php'; ?>
+<main class="container my-5">
     <h2>Contact Us</h2>
 
     <?php
@@ -121,6 +81,37 @@ $conn->close();
 
         <input type="submit" value="Submit">
     </form>
-</body>
+</main>
+<script>
+    // JavaScript validation (client-side)
+    function validateForm() {
+        var name = document.getElementById("name").value.trim();
+        var email = document.getElementById("email").value.trim();
+        var subject = document.getElementById("subject").value.trim();
+        var message = document.getElementById("message").value.trim();
 
-</html>
+        if (name == "") {
+            alert("Please enter your name.");
+            return false;
+        }
+        if (email == "") {
+            alert("Please enter your email.");
+            return false;
+        }
+        var emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+        if (!emailPattern.test(email)) {
+            alert("Please enter a valid email address.");
+            return false;
+        }
+        if (subject == "") {
+            alert("Please enter the subject.");
+            return false;
+        }
+        if (message == "") {
+            alert("Please enter your message.");
+            return false;
+        }
+        return true;
+    }
+</script>
+<?php include 'components/footer.php'; ?>
