@@ -181,3 +181,9 @@
     border-radius: 5px;
 }
 
+/* footer */
+
+.social-icons a{
+    text-decoration: none;
+    color: white;
+}

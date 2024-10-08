@@ -20,11 +20,12 @@
                 </nav>
             </div>
             <div class="col-md-4 text-center mb-3">
-                <h3>Follow Us</h3>
+                <h3>Follow Us On :</h3>
                 <div class="social-icons">
-                    <a href="#" class="mr-2"><img src="facebook-icon.png" alt="Facebook" class="social-icon"></a>
-                    <a href="#" class="mr-2"><img src="twitter-icon.png" alt="Twitter" class="social-icon"></a>
-                    <a href="#"><img src="instagram-icon.png" alt="Instagram" class="social-icon"></a>
+                    <a href="#"><i class="fa fa-facebook" style="font-size:24px"></i></a>
+                    <a href="#"><i class="fa fa-instagram" style="font-size:24px"></i></a>
+                    <a href="#"><i class="fa fa-twitter" style="font-size:24px"></i></a>
+                    <a href="#"><i class="fa fa-youtube" style="font-size:24px"></i></a>
                 </div>
             </div>
         </div>
