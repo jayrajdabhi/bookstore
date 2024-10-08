@@ -1,3 +1,5 @@
+/* Login/Register Page CSS */
+
 .login-page {
     font-family: 'Arial', sans-serif;
     background: linear-gradient(120deg, #f0f4ff, #dfe9f3);
@@ -8,7 +10,7 @@
     margin: 0;
 }
 
-#login_main{
+#login_main {
     background: linear-gradient(120deg, #f0f4ff, #dfe9f3);
 }
 
@@ -17,7 +19,7 @@
     padding: 50px 40px;
     border-radius: 15px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-    width: 400px; /* Adjusted for better layout */
+    width: 400px;
     text-align: center;
 }
 
@@ -28,8 +30,9 @@
 }
 
 .login-container input[type="email"], 
-.login-container input[type="password"] {
-    width: calc(100% - 40px); /* Adjusted width to fit within the container */
+.login-container input[type="password"], 
+.login-container input[type="text"] {  /* Added input[type="text"] */
+    width: calc(100% - 40px);
     padding: 15px;
     margin: 10px 0;
     border: 1px solid #ddd;
@@ -41,7 +44,8 @@
 }
 
 .login-container input[type="email"]:focus,
-.login-container input[type="password"]:focus {
+.login-container input[type="password"]:focus, 
+.login-container input[type="text"]:focus { /* Added input[type="text"]:focus */
     border-color: #007bff;
     background-color: #fff;
     box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
@@ -102,4 +106,20 @@
     color: red;
     text-align: left;
     font-size: 14px;
+}
+
+/* Header.php CSS */
+.navbar-dark .navbar-nav .nav-link {
+    color: white !important;
+}
+
+.btn-outline-light:hover {
+    color: #212529 !important;
+    background-color: #ff9800;
+    border-color: #212529;
+}
+
+.btn-outline-light > a:hover {
+    color: white !important;
+    text-decoration: none;
 }

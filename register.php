@@ -2,13 +2,11 @@
 // Start session
 session_start();
 
-
 $conn = new mysqli('localhost', 'root', '', 'bookstore');
 
 if ($conn->connect_error) {
     die('Connection Failed: ' . $conn->connect_error);
 }
-
 
 $errors = [];
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -36,7 +34,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $errors[] = 'Passwords do not match.';
     }
 
-
     if (empty($errors)) {
         $hashed_password = password_hash($password, PASSWORD_BCRYPT);
 
@@ -54,53 +51,53 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 }
 ?>
 
-<!DOCTYPE html>
-<html>
+<?php include 'components/header.php'; ?>
+<main id="login_main">
+    <div class="login-page">
+        <div class="login-container">
+            <h2>Register</h2>
 
-<head>
-    <title>User Registration</title>
-    <script>
-        function validateForm() {
-            let password = document.forms["registrationForm"]["password"].value;
-            let confirm_password = document.forms["registrationForm"]["confirm_password"].value;
+            <!-- Display errors if any -->
+            <?php if (!empty($errors)): ?>
+                <ul class="error-list">
+                    <?php foreach ($errors as $error): ?>
+                        <li><?php echo $error; ?></li>
+                    <?php endforeach; ?>
+                </ul>
+            <?php endif; ?>
 
-            if (password.length < 6) {
-                alert("Password must be at least 6 characters long.");
-                return false;
-            }
-            if (password !== confirm_password) {
-                alert("Passwords do not match.");
-                return false;
-            }
-            return true;
+            <!-- Registration Form -->
+            <form name="registrationForm" method="POST" action="register.php" onsubmit="return validateForm();">
+                <input type="text" name="username" placeholder="Username" required>
+                <input type="email" name="email" placeholder="Email" required>
+                <input type="password" name="password" placeholder="Password" required>
+                <input type="password" name="confirm_password" placeholder="Confirm Password" required>
+
+                <button type="submit" class="login-btn">Register</button>
+            </form>
+
+            <!-- Login Link -->
+            <div class="signup-link">
+                <p>Already have an account? <a href="login.php">Login</a></p>
+            </div>
+        </div>
+    </div>
+</main>
+<?php include 'components/footer.php'; ?>
+
+<script>
+    function validateForm() {
+        let password = document.forms["registrationForm"]["password"].value;
+        let confirm_password = document.forms["registrationForm"]["confirm_password"].value;
+
+        if (password.length < 6) {
+            alert("Password must be at least 6 characters long.");
+            return false;
         }
-    </script>
-</head>
-
-<body>
-    <h2>Register</h2>
-
-    <?php
-    if (!empty($errors)) {
-        echo '<ul>';
-        foreach ($errors as $error) {
-            echo "<li>$error</li>";
+        if (password !== confirm_password) {
+            alert("Passwords do not match.");
+            return false;
         }
-        echo '</ul>';
+        return true;
     }
-    ?>
-
-    <form name="registrationForm" method="POST" action="register.php" onsubmit="return validateForm();">
-        <label>Username:</label><br>
-        <input type="text" name="username" required><br>
-        <label>Email:</label><br>
-        <input type="email" name="email" required><br>
-        <label>Password:</label><br>
-        <input type="password" name="password" required><br>
-        <label>Confirm Password:</label><br>
-        <input type="password" name="confirm_password" required><br><br>
-        <input type="submit" value="Register">
-    </form>
-</body>
-
-</html>
+</script>

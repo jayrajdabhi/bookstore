@@ -18,7 +18,7 @@
                     <img id="" src="img/logo1.png" alt="Bookstore Logo" class="img-fluid" style="max-width: 250px;">
                 </a>
             </div>
-            <!-- Search box should stack vertically on small screens -->
+
             <div class="search-box d-flex">
                 <input type="text" class="form-control mr-2" placeholder="Search...">
                 <button class="btn btn-primary">Search</button>
@@ -42,9 +42,10 @@
                 </ul>
                 <!-- Add ml-auto to move the button group to the right -->
                 <ul class="navbar-nav ml-auto">
-                    <li class="nav-item"><a class="nav-link" href="#">Wishlist</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Cart</a></li>
-                    <!-- Make the button responsive -->
+                    <!-- <li class="nav-item"><a class="nav-link" href="#">Wishlist</a></li> -->
+                    <li class="nav-item"><a class="nav-link" href="#"><img src="img/cart.png" alt="cart"
+                                style="max-width:35px;"></a></li>
+
                     <li class="nav-item">
                         <button class="btn btn-outline-light">
                             <a href="login.php" class="text-white">Login</a>
