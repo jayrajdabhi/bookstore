@@ -55,32 +55,44 @@ $conn->close();
 
 <?php include 'components/header.php'; ?>
 <main class="container my-5">
-    <h2>Contact Us</h2>
+    <h2 class="text-center">Contact Us</h2>
 
     <?php
     // Display success or error message
     if (!empty($error_message)) {
-        echo '<p style="color:red;">' . $error_message . '</p>';
+        echo '<p class="text-danger text-center">' . $error_message . '</p>';
     } elseif (!empty($success_message)) {
-        echo '<p style="color:green;">' . $success_message . '</p>';
+        echo '<p class="text-success text-center">' . $success_message . '</p>';
     }
     ?>
 
-    <form action="" method="post" onsubmit="return validateForm();">
-        <label for="name">Name:</label><br>
-        <input type="text" id="name" name="name" required><br><br>
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <form action="" method="post" onsubmit="return validateForm();" class="border p-4 rounded bg-light">
+                <div class="mb-3">
+                    <label for="name" class="form-label">Name:</label>
+                    <input type="text" id="name" name="name" class="form-control" required>
+                </div>
 
-        <label for="email">Email:</label><br>
-        <input type="email" id="email" name="email" required><br><br>
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email:</label>
+                    <input type="email" id="email" name="email" class="form-control" required>
+                </div>
 
-        <label for="subject">Subject:</label><br>
-        <input type="text" id="subject" name="subject" required><br><br>
+                <div class="mb-3">
+                    <label for="subject" class="form-label">Subject:</label>
+                    <input type="text" id="subject" name="subject" class="form-control" required>
+                </div>
 
-        <label for="message">Message:</label><br>
-        <textarea id="message" name="message" rows="4" required></textarea><br><br>
+                <div class="mb-3">
+                    <label for="message" class="form-label">Message:</label>
+                    <textarea id="message" name="message" rows="4" class="form-control" required></textarea>
+                </div>
 
-        <input type="submit" value="Submit">
-    </form>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+    </div>
 </main>
 <script>
     // JavaScript validation (client-side)
