@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Brantford Book store</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../bookstore/css/style.css">
+    <link rel="stylesheet" href="../../bookstore/css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 
@@ -17,7 +17,7 @@
             <!-- Responsive Logo -->
             <div class="logo">
                 <a href="index.php">
-                    <img id="" src="img/logo1.png" alt="Bookstore Logo" class="img-fluid" style="max-width: 250px;">
+                    <img id="" src="../img/logo1.png" alt="Bookstore Logo" class="img-fluid" style="max-width: 250px;">
                 </a>
             </div>
 
@@ -26,7 +26,7 @@
                 <button class="btn btn-primary ">Search</button>
             </div>
             <div class="search-box d-flex">
-            <a class="nav-link" href="#"><img src="img/cart.png" alt="cart" style="max-width:35px;"></a>
+            <a class="nav-link" href="#"><img src="../img/cart.png" alt="cart" style="max-width:35px;"></a>
             </div>  
         </div>
     </header>
@@ -41,8 +41,8 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item"><a class="nav-link" href="index.php">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="about.php">About</a></li>
-                    <li class="nav-item"><a class="nav-link" href="contact.php">Contact Us</a></li>
+                    <li class="nav-item"><a class="nav-link" href="../about.php">About</a></li>
+                    <li class="nav-item"><a class="nav-link" href="../contact.php">Contact Us</a></li>
                 </ul>
                 <ul class="navbar-nav ml-auto"> 
                     

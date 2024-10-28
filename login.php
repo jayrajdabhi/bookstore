@@ -2,6 +2,12 @@
 // Start session
 session_start();
 
+// Redirect to index.php if user is already logged in
+if (isset($_SESSION['user_id'])) {
+    header("Location: index.php");
+    exit();
+}
+
 // Include database connection
 $conn = new mysqli('localhost', 'root', '', 'bookstore');
 
@@ -37,12 +43,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if ($user && password_verify($password, $user['password'])) {
             $_SESSION['user_id'] = $user['id'];
             $_SESSION['role'] = $user['role'];
+            $_SESSION['username'] = $user['username']; 
 
             if ($user['role'] == 'admin') {
-                header("Location: admin_portal.php");
+                header("Location: admin/index.php");
             } else {
                 header("Location: index.php");
             }
+            exit();
         } else {
             $errors[] = 'Invalid email or password!';
         }

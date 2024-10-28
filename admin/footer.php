@@ -7,15 +7,15 @@
         </div>
         <div class="row align-items-center">
             <div class="col-md-4 text-center mb-3">
-                <a href="index.php"><img src="img/Logow.png" alt="Footer Logo" class="img-fluid"
+                <a href="index.php"><img src="../img/Logow.png" alt="Footer Logo" class="img-fluid"
                         style="max-width: 250px;"></a>
             </div>
             <div class="col-md-4 text-center mb-3">
                 <nav class="footer-nav">
                     <ul class="nav justify-content-center">
-                        <li class="nav-item"><a class="nav-link" href="about.php">About Us</a></li>
-                        <li class="nav-item"><a class="nav-link" href="privacy.php">Privacy Policy</a></li>
-                        <li class="nav-item"><a class="nav-link" href="terms.php">Terms of Service</a></li>
+                        <li class="nav-item"><a class="nav-link" href="../about.php">About Us</a></li>
+                        <li class="nav-item"><a class="nav-link" href="../privacy.php">Privacy Policy</a></li>
+                        <li class="nav-item"><a class="nav-link" href="../terms.php">Terms of Service</a></li>
                     </ul>
                 </nav>
             </div>
