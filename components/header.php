@@ -26,8 +26,10 @@
                 <button class="btn btn-primary ">Search</button>
             </div>
             <div class="search-box d-flex">
-            <a class="nav-link" href="#"><img src="img/cart.png" alt="cart" style="max-width:35px;"></a>
-            <a class="nav-link mt-2" href="#">Profile</a>
+                <a class="nav-link mt-2" href="#" data-toggle="tooltip" data-placement="top" title="cart"><img src="img/cartb.png" alt="cart" style="max-width:40px;"></a>
+                <?php if (isset($_SESSION['user_id'])):?>
+                    <a class="nav-link mt-2" href="profile.php" data-toggle="tooltip" data-placement="top" title="Profile"><img src="img/profile.png" alt="profile" id="profile-img"></a>
+                <?php endif ?>
             </div>  
         </div>
     </header>

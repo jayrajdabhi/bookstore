@@ -256,3 +256,8 @@
 .add-to-cart-btn:hover {
     background-color: #218838;
 }
+
+#profile-img{
+    max-height: 45px;
+    max-width: 45px;
+}
