@@ -27,6 +27,7 @@
             </div>
             <div class="search-box d-flex">
             <a class="nav-link" href="#"><img src="img/cart.png" alt="cart" style="max-width:35px;"></a>
+            <a class="nav-link mt-2" href="#">Profile</a>
             </div>  
         </div>
     </header>

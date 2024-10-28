@@ -43,3 +43,16 @@ CREATE TABLE books (
 -- ('To Kill a Mockingbird', 'Harper Lee', 12.50, 'img/to_kill_a_mockingbird.jpg', 'Fiction', 1960, 'A novel about racial injustice in the Deep South, told through the eyes of a child.'),
 -- ('Moby Dick', 'Herman Melville', 15.00, 'img/moby_dick.jpg', 'Adventure', 1851, 'The story of Captain Ahab’s obsessive quest to hunt down the white whale, Moby Dick.');  -- 1851 is fine for INT
 
+--User Profile table
+CREATE TABLE user_profiles (
+    profile_id INT(11) AUTO_INCREMENT PRIMARY KEY,
+    user_id INT(11) NOT NULL,
+    first_name VARCHAR(100) NOT NULL,
+    last_name VARCHAR(100) NOT NULL,
+    phone_number VARCHAR(20),
+    address TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);
