@@ -23,5 +23,23 @@ CREATE TABLE contact_us (
     submitted_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+-- Books Database Table
+CREATE TABLE books (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    author VARCHAR(100) NOT NULL,
+    price DECIMAL(10, 2) NOT NULL,
+    image VARCHAR(255) NOT NULL,
+    genre VARCHAR(100),
+    publication_year INT,  -- Change YEAR to INT
+    description TEXT
+);
 
+
+-- Dummy Data
+-- INSERT INTO books (name, author, price, image, genre, publication_year, description) VALUES
+-- ('The Great Gatsby', 'F. Scott Fitzgerald', 10.99, 'img/great_gatsby.jpg', 'Fiction', 1925, 'A classic novel set in the Jazz Age, exploring themes of wealth and society.'),
+-- ('1984', 'George Orwell', 8.99, 'img/1984.jpg', 'Dystopian', 1949, 'A dystopian novel that delves into the dangers of totalitarianism and extreme political ideology.'),
+-- ('To Kill a Mockingbird', 'Harper Lee', 12.50, 'img/to_kill_a_mockingbird.jpg', 'Fiction', 1960, 'A novel about racial injustice in the Deep South, told through the eyes of a child.'),
+-- ('Moby Dick', 'Herman Melville', 15.00, 'img/moby_dick.jpg', 'Adventure', 1851, 'The story of Captain Ahab’s obsessive quest to hunt down the white whale, Moby Dick.');  -- 1851 is fine for INT
 

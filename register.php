@@ -35,17 +35,28 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 
     if (empty($errors)) {
-        $hashed_password = password_hash($password, PASSWORD_BCRYPT);
-
-        // Insert user into the database
-        $sql = "INSERT INTO users (username, email, password, role) VALUES (?, ?, ?, ?)";
+        // Check if username or email already exists
+        $sql = "SELECT * FROM users WHERE username = ? OR email = ?";
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param("ssss", $username, $email, $hashed_password, $role);
+        $stmt->bind_param("ss", $username, $email);
+        $stmt->execute();
+        $result = $stmt->get_result();
 
-        if ($stmt->execute()) {
-            echo "Registration successful!";
+        if ($result->num_rows > 0) {
+            $errors[] = 'Username or email already exists.';
         } else {
-            $errors[] = "Error: " . $stmt->error;
+            $hashed_password = password_hash($password, PASSWORD_BCRYPT);
+
+            // Insert user into the database
+            $sql = "INSERT INTO users (username, email, password, role) VALUES (?, ?, ?, ?)";
+            $stmt = $conn->prepare($sql);
+            $stmt->bind_param("ssss", $username, $email, $hashed_password, $role);
+
+            if ($stmt->execute()) {
+                echo "Registration successful!";
+            } else {
+                $errors[] = "Error: " . $stmt->error;
+            }
         }
     }
 }
@@ -54,7 +65,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <?php include 'components/header.php'; ?>
 <main id="login_main">
     <div class="login-page">
-        <div class="login-container">
+        <div class="login-container mt-5 mb-5">
             <h2>Register</h2>
 
             <!-- Display errors if any -->

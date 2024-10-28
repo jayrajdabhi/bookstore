@@ -125,8 +125,7 @@
 }
 
 
-
-/* Book List Page CSS */
+/* Responsive adjustments for Book List Page CSS */
 
 .book-container {
     max-width: 1200px;
@@ -136,6 +135,7 @@
 
 .book-h2 {
     text-align: center;
+    margin-bottom: 20px; /* Added margin for spacing */
 }
 
 .book-grid {
@@ -151,6 +151,7 @@
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     padding: 20px;
     transition: transform 0.3s ease;
+    text-align: center; /* Center text inside the book item */
 }
 
 .book-item:hover {
@@ -158,13 +159,20 @@
 }
 
 .book-name {
+    
+    color: black !important;
     font-size: 20px;
     font-weight: bold;
     margin-bottom: 10px;
 }
 
+.book-author {
+    font-size: 16px; /* Set author font size */
+    margin-bottom: 10px;
+}
+
 .book-price {
-    color: #007BFF;
+    color: black;
     font-size: 18px;
     margin-bottom: 10px;
 }
@@ -181,9 +189,70 @@
     border-radius: 5px;
 }
 
+.book-item > a{
+    color: #212529;
+    text-decoration: none;
+}
+
+/* Media Queries for Responsive Design */
+@media (max-width: 768px) {
+    .book-name {
+        font-size: 18px; /* Reduce font size on smaller screens */
+    }
+
+    .book-author,
+    .book-price {
+        font-size: 14px; /* Reduce font size on smaller screens */
+    }
+
+    .book-item {
+        padding: 15px; /* Adjust padding for smaller screens */
+    }
+}
+
+@media (max-width: 480px) {
+    .book-name {
+        font-size: 16px; /* Further reduce font size */
+    }
+
+    .book-author,
+    .book-price {
+        font-size: 12px; /* Further reduce font size */
+    }
+
+    .book-item {
+        padding: 10px; /* Adjust padding for mobile */
+    }
+
+    .book-grid {
+        gap: 10px; /* Reduce gap between items */
+    }
+}
+
+
 /* footer */
 
 .social-icons a{
     text-decoration: none;
     color: white;
+}
+
+
+/* book details page */
+
+.add-to-cart-btn {
+    width: calc(100% - 40px);
+    padding: 10px;
+    background-color: #28a745;
+    border: none;
+    color: white;
+    font-size: 16px;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 10px; /* Add space above the button */
+}
+
+.add-to-cart-btn:hover {
+    background-color: #218838;
 }
