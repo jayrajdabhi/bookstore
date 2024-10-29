@@ -43,7 +43,7 @@ CREATE TABLE books (
 -- ('To Kill a Mockingbird', 'Harper Lee', 12.50, 'img/to_kill_a_mockingbird.jpg', 'Fiction', 1960, 'A novel about racial injustice in the Deep South, told through the eyes of a child.'),
 -- ('Moby Dick', 'Herman Melville', 15.00, 'img/moby_dick.jpg', 'Adventure', 1851, 'The story of Captain Ahab’s obsessive quest to hunt down the white whale, Moby Dick.');  -- 1851 is fine for INT
 
---User Profile table
+-- User Profile table
 CREATE TABLE user_profiles (
     profile_id INT(11) AUTO_INCREMENT PRIMARY KEY,
     user_id INT(11) NOT NULL,
