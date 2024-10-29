@@ -17,7 +17,7 @@
         <div class="container d-flex flex-column flex-md-row justify-content-between align-items-center">
             <!-- Responsive Logo -->
             <div class="logo">
-                <a href="index.php">
+                <a href="../index.php">
                     <img id="" src="../img/logo1.png" alt="Bookstore Logo" class="img-fluid" style="max-width: 250px;">
                 </a>
             </div>
@@ -44,7 +44,7 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav mr-auto">
-                    <li class="nav-item"><a class="nav-link" href="index.php">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="../index.php">Home</a></li>
                     <li class="nav-item"><a class="nav-link" href="../about.php">About</a></li>
                     <li class="nav-item"><a class="nav-link" href="../contact.php">Contact Us</a></li>
                 </ul>
