@@ -25,25 +25,43 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
 }
 ?>
 
-
 <?php include 'components/header.php'; ?>
 
 <main class="container my-5">
-    <div class="book-detail-container">
-        <h2><?php echo htmlspecialchars($book['name']); ?></h2>
-        <div class="book-detail">
-            <img src="<?php echo htmlspecialchars($book['image']); ?>" alt="<?php echo htmlspecialchars($book['name']); ?>" class="book-image">
-            <div class="book-info">
-                <p><strong>Author:</strong> <?php echo htmlspecialchars($book['author']); ?></p>
-                <p><strong>Price:</strong> $<?php echo number_format($book['price'], 2); ?></p>
-                <p><strong>Genre:</strong> <?php echo htmlspecialchars($book['genre']); ?></p>
-                <p><strong>Publication Year:</strong> <?php echo htmlspecialchars($book['publication_year']); ?></p>
-                <p><strong>Description:</strong> <?php echo nl2br(htmlspecialchars($book['description'])); ?></p>
-                <form action="#" method="post">
-                    <input type="hidden" name="book_id" value="<?php echo $book['id']; ?>">
-                    <input type="submit" value="Add to Cart" class="btn btn-primary">
-                </form>
-            </div>
+    <div class="row">
+        <div class="col-md-6">
+            <img src="<?php echo htmlspecialchars($book['image']); ?>" alt="<?php echo htmlspecialchars($book['name']); ?>" class="img-fluid">
+        </div>
+        <div class="col-md-6">
+            <h2><?php echo htmlspecialchars($book['name']); ?></h2>
+            <table class="table table-bordered mt-3">
+                <tbody>
+                    <tr>
+                        <th scope="row">Author</th>
+                        <td><?php echo htmlspecialchars($book['author']); ?></td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Price</th>
+                        <td>$<?php echo number_format($book['price'], 2); ?></td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Genre</th>
+                        <td><?php echo htmlspecialchars($book['genre']); ?></td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Publication Year</th>
+                        <td><?php echo htmlspecialchars($book['publication_year']); ?></td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Description</th>
+                        <td><?php echo nl2br(htmlspecialchars($book['description'])); ?></td>
+                    </tr>
+                </tbody>
+            </table>
+            <form action="#" method="post" class="mt-3">
+                <input type="hidden" name="book_id" value="<?php echo $book['id']; ?>">
+                <button type="submit" class="btn btn-primary">Add to Cart</button>
+            </form>
         </div>
     </div>
 </main>
