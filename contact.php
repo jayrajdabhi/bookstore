@@ -15,8 +15,8 @@ if ($conn->connect_error) {
 $error_message = '';
 $success_message = '';
 
-// Server-side validation
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+// Handle Contact Us Form Submission
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['name'], $_POST['email'], $_POST['subject'], $_POST['message'])) {
     $name = trim($_POST['name']);
     $email = trim($_POST['email']);
     $subject = trim($_POST['subject']);
@@ -32,7 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     } elseif (empty($messageText)) {
         $error_message = "Please enter your message.";
     } else {
-        // Function to insert data into database
+        // Insert data into database
         $name = $conn->real_escape_string($name);
         $email = $conn->real_escape_string($email);
         $subject = $conn->real_escape_string($subject);
@@ -42,6 +42,29 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         if ($conn->query($sql) === TRUE) {
             $success_message = "Thank you for contacting us! We will get back to you shortly.";
+        } else {
+            $error_message = "Error: " . $sql . "<br>" . $conn->error;
+        }
+    }
+}
+
+// Handle Feedback Form Submission
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['feedback'])) {
+    $feedbackText = trim($_POST['feedback']);
+    $userId = 1; // Assume the user is logged in and the user ID is available. Update as per your authentication logic.
+
+    // Validate Feedback Text
+    if (empty($feedbackText)) {
+        $error_message = "Please enter your feedback.";
+    } else {
+        // Sanitize feedback text
+        $feedbackText = $conn->real_escape_string($feedbackText);
+
+        // Insert feedback into the database
+        $sql = "INSERT INTO feedback (user_id, feedback_text) VALUES ('$userId', '$feedbackText')";
+
+        if ($conn->query($sql) === TRUE) {
+            $success_message = "Thank you for your feedback!";
         } else {
             $error_message = "Error: " . $sql . "<br>" . $conn->error;
         }
@@ -67,7 +90,8 @@ $conn->close();
 
     <div class="row justify-content-center">
         <div class="col-md-6">
-            <form id="contactForm" action="" method="post" onsubmit="return validateForm();" class="border p-4 rounded bg-light shadow-lg hover-shadow">
+            <form id="contactForm" action="" method="post" onsubmit="return validateForm();"
+                class="border p-4 rounded bg-light shadow-lg hover-shadow">
                 <div class="mb-3">
                     <label for="name" class="form-label">Name:</label>
                     <input type="text" id="name" name="name" class="form-control" required>
@@ -99,7 +123,7 @@ $conn->close();
         </div>
     </div>
 
-    <!-- Brantford Map Section -->
+    <!-- Google Map Section -->
     <div class="row my-5">
         <div class="col-md-12">
             <h3 class="text-center">Find Us Here</h3>
@@ -109,7 +133,7 @@ $conn->close();
         </div>
     </div>
 
-    <!-- Feedback Section -->
+    <!-- Feedback Form Section -->
     <div class="row my-5">
         <div class="col-md-12">
             <h3 class="text-center">Feedback</h3>
@@ -118,14 +142,14 @@ $conn->close();
                     <label for="feedback" class="form-label">Your Feedback:</label>
                     <textarea id="feedback" name="feedback" rows="4" class="form-control" required></textarea>
                 </div>
-                <div class="text-center"> <!-- Centering the button -->
+                <div class="text-center">
                     <button type="submit" class="btn btn-primary">Send Feedback</button>
                 </div>
             </form>
         </div>
     </div>
-
 </main>
+
 <script>
     // JavaScript validation (client-side)
     function validateForm() {
@@ -173,6 +197,7 @@ $conn->close();
         return isValid; // Return false to prevent form submission if invalid
     }
 </script>
+
 <style>
     .hover-shadow {
         transition: box-shadow 0.3s;
@@ -183,4 +208,5 @@ $conn->close();
         transform: translateY(-2px);
     }
 </style>
+
 <?php include 'components/footer.php'; ?>
