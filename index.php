@@ -145,7 +145,8 @@ $genres = $genreResult->fetch_all(MYSQLI_ASSOC);
                             <?php foreach ($books as $book): ?>
                                 <div class="book-item">
                                     <a href="book_details.php?id=<?php echo $book['id']; ?>">
-                                        <img src="<?php echo htmlspecialchars($book['image']); ?>"
+                                        <!-- Updated Image Path -->
+                                        <img src="img/<?php echo htmlspecialchars($book['image']); ?>"
                                             alt="<?php echo htmlspecialchars($book['name']); ?>" class="book-image">
                                         <div class="book-name"><?php echo htmlspecialchars($book['name']); ?></div>
                                         <div class="book-author">Author: <?php echo htmlspecialchars($book['author']); ?></div>

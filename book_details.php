@@ -20,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['book_id'])) {
             'quantity' => 1,
         ];
     }
- 
+
     // Set a success message
     $_SESSION['message'] = "Item added to cart successfully!";
 
@@ -63,7 +63,7 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
 <main class="container my-5">
     <div class="row">
         <div class="col-md-6">
-            <img src="<?php echo htmlspecialchars($book['image']); ?>"
+            <img src="img/<?php echo htmlspecialchars($book['image']); ?>"
                 alt="<?php echo htmlspecialchars($book['name']); ?>" class="img-fluid">
         </div>
         <div class="col-md-6">

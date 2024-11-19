@@ -8,9 +8,19 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
     header("Location: ./login.php");
     exit();
 }
+
+// Include database configuration
+include '../config/database.php';
+include 'header.php';
+
+// Fetch all books from the database
+$query = "SELECT books.*, genres.genre_name AS genre_name 
+          FROM books 
+          LEFT JOIN genres ON books.genre_id = genres.id";
+$result = $db->query($query);
+
 ?>
 
-<?php include 'header.php'; ?>
 <div class="container mt-5 mb-5">
     <h2 class="text-center">Admin Dashboard</h2>
     <div class="table-responsive">
@@ -18,48 +28,48 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
             <thead class="thead-light">
                 <tr>
                     <th>#</th>
-                    <th>Product Name</th>
+                    <th>Book Name</th>
+                    <th>Author</th>
                     <th>Price</th>
-                    <th>Details</th>
+                    <th>Genre</th>
+                    <th>Publication Year</th>
                     <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>Product A</td>
-                    <td>$10.00</td>
-                    <td>Details about Product A</td>
-                    <td>
-                        <button class="btn btn-warning btn-sm"><i class="fas fa-edit"></i> Edit</button>
-                        <button class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i> Delete</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>Product B</td>
-                    <td>$20.00</td>
-                    <td>Details about Product B</td>
-                    <td>
-                        <button class="btn btn-warning btn-sm"><i class="fas fa-edit"></i> Edit</button>
-                        <button class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i> Delete</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>3</td>
-                    <td>Product C</td>
-                    <td>$30.00</td>
-                    <td>Details about Product C</td>
-                    <td>
-                        <button class="btn btn-warning btn-sm"><i class="fas fa-edit"></i> Edit</button>
-                        <button class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i> Delete</button>
-                    </td>
-                </tr>
+                <?php if ($result->num_rows > 0): ?>
+                    <?php while ($book = $result->fetch_assoc()): ?>
+                        <tr>
+                            <td><?php echo $book['id']; ?></td>
+                            <td><?php echo htmlspecialchars($book['name']); ?></td>
+                            <td><?php echo htmlspecialchars($book['author']); ?></td>
+                            <td>$<?php echo number_format($book['price'], 2); ?></td>
+                            <td><?php echo htmlspecialchars($book['genre_name'] ?: 'Unknown'); ?></td>
+                            <td><?php echo htmlspecialchars($book['publication_year']); ?></td>
+                            <td>
+                                <a href="edit_book.php?id=<?php echo $book['id']; ?>" class="btn btn-warning btn-sm">
+                                    <i class="fas fa-edit"></i> Edit
+                                </a>
+                                <a href="delete_book.php?id=<?php echo $book['id']; ?>"
+                                    onclick="return confirm('Are you sure you want to delete this book?');"
+                                    class="btn btn-danger btn-sm">
+                                    <i class="fas fa-trash-alt"></i> Delete
+                                </a>
+                            </td>
+                        </tr>
+                    <?php endwhile; ?>
+                <?php else: ?>
+                    <tr>
+                        <td colspan="7" class="text-center">No books available</td>
+                    </tr>
+                <?php endif; ?>
             </tbody>
         </table>
     </div>
     <div class="text-center mt-4">
-        <button class="btn btn-success"><i class="fas fa-plus"></i> Add New Product</button>
+        <a href="add_book.php" class="btn btn-success">
+            <i class="fas fa-plus"></i> Add New Book
+        </a>
     </div>
 </div>
 
