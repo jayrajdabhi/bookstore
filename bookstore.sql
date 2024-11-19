@@ -23,6 +23,23 @@ CREATE TABLE IF NOT EXISTS contact_us (
     submitted_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+-- Create genres table to store the different genres
+CREATE TABLE IF NOT EXISTS genres (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    genre_name VARCHAR(255) NOT NULL UNIQUE
+);
+
+-- Insert sample genres into genres table
+INSERT INTO genres (genre_name) VALUES
+('Fiction'),
+('Dystopian'),
+('Adventure'),
+('Fantasy'),
+('Science Fiction'),
+('Biography'),
+('Mystery'),
+('Historical');
+
 -- Books table: stores information about the books in the bookstore
 CREATE TABLE IF NOT EXISTS books (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -30,17 +47,18 @@ CREATE TABLE IF NOT EXISTS books (
     author VARCHAR(100) NOT NULL,
     price DECIMAL(10, 2) NOT NULL,
     image VARCHAR(255) NOT NULL,
-    genre VARCHAR(100),
+    genre_id INT,  -- This is now a foreign key to the genres table
     publication_year INT,  -- Changed YEAR to INT
-    description TEXT
+    description TEXT,
+    FOREIGN KEY (genre_id) REFERENCES genres(id) ON DELETE SET NULL  -- Foreign key constraint
 );
 
--- Dummy data insertion for books table (optional)
-INSERT INTO books (name, author, price, image, genre, publication_year, description) VALUES
-('The Great Gatsby', 'F. Scott Fitzgerald', 10.99, 'img/great_gatsby.jpg', 'Fiction', 1925, 'A classic novel set in the Jazz Age, exploring themes of wealth and society.'),
-('1984', 'George Orwell', 8.99, 'img/1984.jpg', 'Dystopian', 1949, 'A dystopian novel that delves into the dangers of totalitarianism and extreme political ideology.'),
-('To Kill a Mockingbird', 'Harper Lee', 12.50, 'img/to_kill_a_mockingbird.jpg', 'Fiction', 1960, 'A novel about racial injustice in the Deep South, told through the eyes of a child.'),
-('Moby Dick', 'Herman Melville', 15.00, 'img/moby_dick.jpg', 'Adventure', 1851, 'The story of Captain Ahab’s obsessive quest to hunt down the white whale, Moby Dick.');
+-- Dummy data insertion for books table with genre references
+INSERT INTO books (name, author, price, image, genre_id, publication_year, description) VALUES
+('The Great Gatsby', 'F. Scott Fitzgerald', 10.99, 'img/great_gatsby.jpg', (SELECT id FROM genres WHERE genre_name = 'Fiction'), 1925, 'A classic novel set in the Jazz Age, exploring themes of wealth and society.'),
+('1984', 'George Orwell', 8.99, 'img/1984.jpg', (SELECT id FROM genres WHERE genre_name = 'Dystopian'), 1949, 'A dystopian novel that delves into the dangers of totalitarianism and extreme political ideology.'),
+('To Kill a Mockingbird', 'Harper Lee', 12.50, 'img/to_kill_a_mockingbird.jpg', (SELECT id FROM genres WHERE genre_name = 'Fiction'), 1960, 'A novel about racial injustice in the Deep South, told through the eyes of a child.'),
+('Moby Dick', 'Herman Melville', 15.00, 'img/moby_dick.jpg', (SELECT id FROM genres WHERE genre_name = 'Adventure'), 1851, 'The story of Captain Ahab’s obsessive quest to hunt down the white whale, Moby Dick.');
 
 -- User Profile table: stores additional details for each user (first name, last name, address, etc.)
 CREATE TABLE IF NOT EXISTS user_profiles (
@@ -65,4 +83,3 @@ VALUES
 -- You can insert a user profile for the user above once the user is created
 -- INSERT INTO user_profiles (user_id, first_name, last_name, phone_number, address, created_at, updated_at)
 -- VALUES (1, 'Pravin', 'Velawala', '123-456-7890', '123 Main St, City, Country', NOW(), NOW());
-

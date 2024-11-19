@@ -34,7 +34,7 @@ if (session_status() === PHP_SESSION_NONE) {
             </div>
 
             <div class="search-box d-flex">
-                <a class="nav-link mt-2" href="#" data-toggle="tooltip" data-placement="top" title="cart"><img
+                <a class="nav-link mt-2" href="cart.php" data-toggle="tooltip" data-placement="top" title="cart"><img
                         src="img/cartb.png" alt="cart" style="max-width:40px;"></a>
                 <?php if (isset($_SESSION['user_id'])): ?>
                     <a class="nav-link mt-2" href="profile.php" data-toggle="tooltip" data-placement="top"
