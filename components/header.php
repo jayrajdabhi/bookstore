@@ -1,4 +1,4 @@
-<?php 
+<?php
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
@@ -26,15 +26,21 @@ if (session_status() === PHP_SESSION_NONE) {
             </div>
 
             <div class="search-box d-flex">
-                <input type="text" class="form-control mr-2" placeholder="Search...">
-                <button class="btn btn-primary ">Search</button>
+                <form action="index.php" method="get" class="d-flex w-100">
+                    <input type="text" name="search" class="form-control mr-2" placeholder="Search..."
+                        value="<?php echo isset($_GET['search']) ? htmlspecialchars($_GET['search']) : ''; ?>">
+                    <button class="btn btn-primary">Search</button>
+                </form>
             </div>
+
             <div class="search-box d-flex">
-                <a class="nav-link mt-2" href="#" data-toggle="tooltip" data-placement="top" title="cart"><img src="img/cartb.png" alt="cart" style="max-width:40px;"></a>
-                <?php if (isset($_SESSION['user_id'])):?>
-                    <a class="nav-link mt-2" href="profile.php" data-toggle="tooltip" data-placement="top" title="Profile"><img src="img/profile.png" alt="profile" id="profile-img"></a>
+                <a class="nav-link mt-2" href="#" data-toggle="tooltip" data-placement="top" title="cart"><img
+                        src="img/cartb.png" alt="cart" style="max-width:40px;"></a>
+                <?php if (isset($_SESSION['user_id'])): ?>
+                    <a class="nav-link mt-2" href="profile.php" data-toggle="tooltip" data-placement="top"
+                        title="Profile"><img src="img/profile.png" alt="profile" id="profile-img"></a>
                 <?php endif ?>
-            </div>  
+            </div>
         </div>
     </header>
 
@@ -51,8 +57,8 @@ if (session_status() === PHP_SESSION_NONE) {
                     <li class="nav-item"><a class="nav-link" href="about.php">About</a></li>
                     <li class="nav-item"><a class="nav-link" href="contact.php">Contact Us</a></li>
                 </ul>
-                <ul class="navbar-nav ml-auto"> 
-                    
+                <ul class="navbar-nav ml-auto">
+
                     <!-- Show Username and Logout button if user is logged in, otherwise show Login button -->
                     <?php if (isset($_SESSION['user_id'])): ?>
                         <li class="nav-item">
