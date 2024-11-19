@@ -18,11 +18,23 @@ $query = "SELECT books.*, genres.genre_name AS genre_name
           FROM books 
           LEFT JOIN genres ON books.genre_id = genres.id";
 $result = $db->query($query);
-
 ?>
 
 <div class="container mt-5 mb-5">
     <h2 class="text-center">Admin Dashboard</h2>
+
+    <!-- Feedback Messages -->
+    <?php
+    if (isset($_SESSION['success'])) {
+        echo '<div class="alert alert-success">' . $_SESSION['success'] . '</div>';
+        unset($_SESSION['success']);
+    }
+    if (isset($_SESSION['error'])) {
+        echo '<div class="alert alert-danger">' . $_SESSION['error'] . '</div>';
+        unset($_SESSION['error']);
+    }
+    ?>
+
     <div class="table-responsive">
         <table class="table table-bordered table-hover mt-4">
             <thead class="thead-light">
@@ -47,9 +59,11 @@ $result = $db->query($query);
                             <td><?php echo htmlspecialchars($book['genre_name'] ?: 'Unknown'); ?></td>
                             <td><?php echo htmlspecialchars($book['publication_year']); ?></td>
                             <td>
+                                <!-- Edit Book Link -->
                                 <a href="edit_book.php?id=<?php echo $book['id']; ?>" class="btn btn-warning btn-sm">
                                     <i class="fas fa-edit"></i> Edit
                                 </a>
+                                <!-- Delete Book Link -->
                                 <a href="delete_book.php?id=<?php echo $book['id']; ?>"
                                     onclick="return confirm('Are you sure you want to delete this book?');"
                                     class="btn btn-danger btn-sm">
