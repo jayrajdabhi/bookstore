@@ -104,7 +104,7 @@ $genres = $genreResult->fetch_all(MYSQLI_ASSOC);
                         </div>
 
                         <!-- Genre Filter -->
-                        <div class="form-group">
+                        <!-- <div class="form-group">
                             <label for="genre">Genre</label>
                             <select name="genre" id="genre" class="form-control">
                                 <option value="">All Genres</option>
@@ -114,7 +114,7 @@ $genres = $genreResult->fetch_all(MYSQLI_ASSOC);
                                     </option>
                                 <?php endforeach; ?>
                             </select>
-                        </div>
+                        </div> -->
 
                         <!-- Submit Button -->
                         <button type="submit" class="btn btn-primary w-100">Apply Filters</button>
