@@ -20,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['book_id'])) {
             'quantity' => 1,
         ];
     }
-
+ 
     // Set a success message
     $_SESSION['message'] = "Item added to cart successfully!";
 

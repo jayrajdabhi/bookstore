@@ -38,7 +38,8 @@ if (session_status() === PHP_SESSION_NONE) {
                         src="img/cartb.png" alt="cart" style="max-width:40px;"></a>
                 <?php if (isset($_SESSION['user_id'])): ?>
                     <a class="nav-link mt-2" href="profile.php" data-toggle="tooltip" data-placement="top"
-                        title="Profile"><img src="img/profile.png" alt="profile" id="profile-img"></a>
+                        title="Profile"><img src="img/profile.png" alt="profile" id="profile-img"
+                            style="max-width:50px;"></a>
                 <?php endif ?>
             </div>
         </div>

@@ -1,4 +1,4 @@
-<?php 
+<?php
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
@@ -31,11 +31,13 @@ if (session_status() === PHP_SESSION_NONE) {
                 <button class="btn btn-primary ">Search</button>
             </div>
             <div class="search-box d-flex">
-            <a class="nav-link mt-2" href="#"><img src="../img/cartb.png" alt="cart" style="max-width:35px;"></a>
-            <?php if (isset($_SESSION['user_id'])):?>
-                    <a class="nav-link mt-2" href="../profile.php" data-toggle="tooltip" data-placement="top" title="Profile"><img src="../img/profile.png" alt="profile" id="profile-img"></a>
+                <a class="nav-link mt-2" href="#"><img src="../img/cartb.png" alt="cart" style="max-width:35px;"></a>
+                <?php if (isset($_SESSION['user_id'])): ?>
+                    <a class="nav-link mt-2" href="../profile.php" data-toggle="tooltip" data-placement="top"
+                        title="Profile"><img src="../img/profile.png" alt="profile" id="profile-img"
+                            style="max-width:50px;"></a>
                 <?php endif ?>
-            </div>  
+            </div>
         </div>
     </header>
 
@@ -52,8 +54,8 @@ if (session_status() === PHP_SESSION_NONE) {
                     <li class="nav-item"><a class="nav-link" href="../about.php">About</a></li>
                     <li class="nav-item"><a class="nav-link" href="../contact.php">Contact Us</a></li>
                 </ul>
-                <ul class="navbar-nav ml-auto"> 
-                    
+                <ul class="navbar-nav ml-auto">
+
                     <!-- Show Username and Logout button if user is logged in, otherwise show Login button -->
                     <?php if (isset($_SESSION['user_id'])): ?>
                         <li class="nav-item">
