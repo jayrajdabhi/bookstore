@@ -68,6 +68,7 @@ CREATE TABLE IF NOT EXISTS user_profiles (
     last_name VARCHAR(100) NOT NULL,
     phone_number VARCHAR(20),
     address TEXT,
+    profile_picture VARCHAR(255) NULL,  -- Added profile_picture column
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 
@@ -81,5 +82,6 @@ VALUES
     ('prv', '$2y$10$zswLWFTjQmjENq9OGryW..egb1VXTe.RHYYi5PePCXQ2pjOABGgtS', 'prvvelawala@gmail.com', 'customer', '2024-10-29 21:11:01');
 
 -- You can insert a user profile for the user above once the user is created
--- INSERT INTO user_profiles (user_id, first_name, last_name, phone_number, address, created_at, updated_at)
--- VALUES (1, 'Pravin', 'Velawala', '123-456-7890', '123 Main St, City, Country', NOW(), NOW());
+-- INSERT INTO user_profiles (user_id, first_name, last_name, phone_number, address, profile_picture, created_at, updated_at)
+-- VALUES (1, 'Pravin', 'Velawala', '123-456-7890', '123 Main St, City, Country', 'img/profile_picture.jpg', NOW(), NOW());
+
