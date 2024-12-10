@@ -37,10 +37,14 @@ if (session_status() === PHP_SESSION_NONE) {
                 <a class="nav-link mt-2" href="cart.php" data-toggle="tooltip" data-placement="top" title="cart"><img
                         src="img/cartb.png" alt="cart" style="max-width:40px;"></a>
                 <?php if (isset($_SESSION['user_id'])): ?>
-                    <a class="nav-link mt-2" href="profile.php" data-toggle="tooltip" data-placement="top"
-                        title="Profile"><img src="img/profile.png" alt="profile" id="profile-img"
-                            style="max-width:50px;"></a>
-                <?php endif ?>
+                    <a class="nav-link mt-2" href="wishlist.php" data-toggle="tooltip" data-placement="top"
+                        title="Wishlist">
+                        <img src="img/wishlist.jpeg" alt="Wishlist" style="max-width:40px;">
+                        <a class="nav-link mt-2" href="profile.php" data-toggle="tooltip" data-placement="top"
+                            title="Profile"><img src="img/profile.png" alt="profile" id="profile-img"
+                                style="max-width:50px;"></a>
+
+                    <?php endif ?>
             </div>
         </div>
     </header>
@@ -58,6 +62,7 @@ if (session_status() === PHP_SESSION_NONE) {
                     <li class="nav-item"><a class="nav-link" href="about.php">About</a></li>
                     <li class="nav-item"><a class="nav-link" href="track_order.php">Orders</a></li>
                     <li class="nav-item"><a class="nav-link" href="contact.php">Contact Us</a></li>
+
                 </ul>
                 <ul class="navbar-nav ml-auto">
 
@@ -68,6 +73,7 @@ if (session_status() === PHP_SESSION_NONE) {
                                 Hello, <?php echo htmlspecialchars($_SESSION['username']); ?>
                             </span>
                         </li>
+
                         <li class="nav-item">
                             <a href="logout.php" class="btn btn-outline-light mt-2">Logout</a>
                         </li>

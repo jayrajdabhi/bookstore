@@ -29,7 +29,7 @@ $user = $result->fetch_assoc();
 // Handle profile update
 $errors = [];
 $success = '';
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['update_profile'])) {
     $first_name = trim($_POST['first_name']);
     $last_name = trim($_POST['last_name']);
     $phone_number = trim($_POST['phone_number']);
@@ -126,6 +126,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
                 <!-- Profile Form -->
                 <form method="POST" enctype="multipart/form-data">
+                    <input type="hidden" name="update_profile" value="1">
                     <div class="form-group">
                         <label for="username">Username</label>
                         <input type="text" id="username" class="form-control"
@@ -165,6 +166,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         <?php endif; ?>
                     </div>
                     <button type="submit" class="btn btn-primary">Save Changes</button>
+                </form>
+
+                <!-- Delete Account Button -->
+                <form method="POST" action="delete_account.php" class="mt-4">
+                    <button type="submit" class="btn btn-danger">Delete My Account</button>
                 </form>
             </div>
         </div>

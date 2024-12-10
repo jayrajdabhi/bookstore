@@ -59,43 +59,53 @@ $genres_result = $db->query($genres_query);
 <body>
     <?php include 'header.php'; ?>
     <div class="container mt-5">
-        <h2>Add New Book</h2>
-        <form method="POST" enctype="multipart/form-data">
-            <div class="form-group">
-                <label for="name">Book Name</label>
-                <input type="text" class="form-control" id="name" name="name" required>
+        <div class="card my-5 p-4">
+            <div class="card-header text-center">
+                <h2>Add New Book</h2>
             </div>
-            <div class="form-group">
-                <label for="author">Author</label>
-                <input type="text" class="form-control" id="author" name="author" required>
+            <div class="card-body">
+                <form method="POST" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label for="name">Book Name</label>
+                        <input type="text" class="form-control" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="author">Author</label>
+                        <input type="text" class="form-control" id="author" name="author" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="price">Price</label>
+                        <input type="number" step="0.01" class="form-control" id="price" name="price" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="genre_id">Genre</label>
+                        <select class="form-control" id="genre_id" name="genre_id" required>
+                            <option value="" disabled selected>Select Genre</option>
+                            <?php while ($genre = $genres_result->fetch_assoc()): ?>
+                                <option value="<?php echo $genre['id']; ?>">
+                                    <?php echo htmlspecialchars($genre['genre_name']); ?></option>
+                            <?php endwhile; ?>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="publication_year">Publication Year</label>
+                        <input type="number" class="form-control" id="publication_year" name="publication_year"
+                            required>
+                    </div>
+                    <div class="form-group">
+                        <label for="description">Description</label>
+                        <textarea class="form-control" id="description" name="description" rows="4" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="image">Book Image</label>
+                        <input type="file" class="form-control-file" id="image" name="image" required>
+                    </div>
+                    <!-- Center the button using flexbox -->
+                    <div class="d-flex justify-content-center">
+                        <button type="submit" class="btn btn-primary">Add Book</button>
+                    </div>
+                </form>
             </div>
-            <div class="form-group">
-                <label for="price">Price</label>
-                <input type="number" step="0.01" class="form-control" id="price" name="price" required>
-            </div>
-            <div class="form-group">
-                <label for="genre_id">Genre</label>
-                <select class="form-control" id="genre_id" name="genre_id" required>
-                    <option value="" disabled selected>Select Genre</option>
-                    <?php while ($genre = $genres_result->fetch_assoc()): ?>
-                        <option value="<?php echo $genre['id']; ?>"><?php echo htmlspecialchars($genre['genre_name']); ?>
-                        </option>
-                    <?php endwhile; ?>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="publication_year">Publication Year</label>
-                <input type="number" class="form-control" id="publication_year" name="publication_year" required>
-            </div>
-            <div class="form-group">
-                <label for="description">Description</label>
-                <textarea class="form-control" id="description" name="description" rows="4" required></textarea>
-            </div>
-            <div class="form-group">
-                <label for="image">Book Image</label>
-                <input type="file" class="form-control-file" id="image" name="image" required>
-            </div>
-            <button type="submit" class="btn btn-primary">Add Book</button>
-        </form>
+        </div>
     </div>
     <?php include 'footer.php'; ?>
