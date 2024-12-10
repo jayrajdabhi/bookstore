@@ -8,6 +8,7 @@ $minPrice = '';
 $maxPrice = '';
 $genre = '';
 
+// Get filter values from GET parameters
 if (isset($_GET['search'])) {
     $search = $_GET['search'];
 }
@@ -24,31 +25,57 @@ if (isset($_GET['genre'])) {
     $genre = $_GET['genre'];
 }
 
-// Prepare query with filters and join the genres table
+
+// Build the query dynamically based on filter conditions
 $query = "
     SELECT b.id, b.name, b.author, b.price, b.image, g.genre_name 
     FROM books b
     LEFT JOIN genres g ON b.genre_id = g.id
     WHERE (b.name LIKE ? OR b.author LIKE ? OR g.genre_name LIKE ?)
-    AND (? = '' OR b.price >= ?)
-    AND (? = '' OR b.price <= ?)
-    AND (? = '' OR g.genre_name = ?)
 ";
 
+// If price filter is set, add conditions for price range
+if ($minPrice !== '') {
+    $query .= " AND b.price >= ?";
+}
+if ($maxPrice !== '') {
+    $query .= " AND b.price <= ?";
+}
+
+// If genre filter is set, add condition for genre
+if ($genre !== '') {
+    $query .= " AND g.genre_name = ?";
+}
+
+
+// Prepare and bind parameters
 $stmt = $db->prepare($query);
+
+// Bind the parameters based on filter values
 $searchTerm = '%' . $search . '%';
-$stmt->bind_param(
-    'sssssdsds',
-    $searchTerm,       // Search term for name, author, genre
-    $searchTerm,       // Search term for name, author, genre
-    $searchTerm,       // Search term for name, author, genre
-    $minPrice,         // Minimum price filter
-    $minPrice,         // Minimum price filter
-    $maxPrice,         // Maximum price filter
-    $maxPrice,         // Maximum price filter
-    $genre,            // Genre filter
-    $genre             // Genre filter
-);
+$paramTypes = 'sss'; // Start with 3 string parameters for search
+$params = [$searchTerm, $searchTerm, $searchTerm];
+
+// Add parameters for price filters if provided
+if ($minPrice !== '') {
+    $paramTypes .= 'd';  // Add double for numeric value
+    $params[] = $minPrice;
+}
+if ($maxPrice !== '') {
+    $paramTypes .= 'd';  // Add double for numeric value
+    $params[] = $maxPrice;
+}
+
+// Add parameter for genre filter if provided
+if ($genre !== '') {
+    $paramTypes .= 's';  // Add string for genre filter
+    $params[] = $genre;
+}
+
+// Bind the parameters dynamically
+$stmt->bind_param($paramTypes, ...$params);
+
+// Execute the query
 $stmt->execute();
 $result = $stmt->get_result();
 $books = $result->fetch_all(MYSQLI_ASSOC);
@@ -104,7 +131,7 @@ $genres = $genreResult->fetch_all(MYSQLI_ASSOC);
                         </div>
 
                         <!-- Genre Filter -->
-                        <!-- <div class="form-group">
+                        <div class="form-group">
                             <label for="genre">Genre</label>
                             <select name="genre" id="genre" class="form-control">
                                 <option value="">All Genres</option>
@@ -114,7 +141,7 @@ $genres = $genreResult->fetch_all(MYSQLI_ASSOC);
                                     </option>
                                 <?php endforeach; ?>
                             </select>
-                        </div> -->
+                        </div>
 
                         <!-- Submit Button -->
                         <button type="submit" class="btn btn-primary w-100">Apply Filters</button>
@@ -145,7 +172,6 @@ $genres = $genreResult->fetch_all(MYSQLI_ASSOC);
                             <?php foreach ($books as $book): ?>
                                 <div class="book-item">
                                     <a href="book_details.php?id=<?php echo $book['id']; ?>">
-                                        <!-- Updated Image Path -->
                                         <img src="img/<?php echo htmlspecialchars($book['image']); ?>"
                                             alt="<?php echo htmlspecialchars($book['name']); ?>" class="book-image">
                                         <div class="book-name"><?php echo htmlspecialchars($book['name']); ?></div>
@@ -155,7 +181,7 @@ $genres = $genreResult->fetch_all(MYSQLI_ASSOC);
                                 </div>
                             <?php endforeach; ?>
                         <?php else: ?>
-                            <p>No books found for "<?php echo htmlspecialchars($search); ?>".</p>
+                            <p>No books found.</p>
                         <?php endif; ?>
                     </div>
                 </div>

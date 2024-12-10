@@ -132,9 +132,9 @@ CREATE TABLE `orders` (
 --
 
 INSERT INTO `orders` (`id`, `user_id`, `full_name`, `address`, `city`, `zip_code`, `payment_method`, `total_amount`, `created_at`) VALUES
-(1, 1, 'Jayraj', '150 Darling st', 'Brantford', 'N3T6A7', 'Credit/Debit Card', 30.00, '2024-11-19 20:16:53'),
-(2, 1, 'Jayraj', '150 Darling Street', 'Brantford', 'N3T6A7', 'PayPal', 30.00, '2024-11-19 20:27:34'),
-(3, 1, 'Jayraj', '21 Diana Avenue', 'Brantford', 'N3T6A7', 'PayPal', 30.00, '2024-11-19 21:42:42');
+(1, 1, 'Nimit', '150 Darling st', 'Brantford', 'N3T6A7', 'Credit/Debit Card', 30.00, '2024-11-19 20:16:53'),
+(2, 1, 'Harsh', '150 Darling Street', 'Brantford', 'N3T6A7', 'PayPal', 30.00, '2024-11-19 20:27:34'),
+(3, 1, 'Utsav', '21 Diana Avenue', 'Brantford', 'N3T6A7', 'PayPal', 30.00, '2024-11-19 21:42:42');
 
 -- --------------------------------------------------------
 

@@ -1,4 +1,6 @@
 <?php
+session_start(); // Start session to access logged-in user data
+
 // Include database connection
 $conn = new mysqli('localhost', 'root', '', 'bookstore'); // Adjust credentials as needed
 
@@ -6,7 +8,13 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-$user_id = 1; // Assuming a logged-in user with user_id = 1
+// Fetch the current user ID from session
+if (!isset($_SESSION['user_id'])) {
+    echo "<script>alert('You need to log in to place an order.'); window.location.href = 'login.php';</script>";
+    exit; // Prevent further script execution if the user is not logged in
+}
+$user_id = $_SESSION['user_id']; // Get the logged-in user ID
+
 $errors = [];
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -32,8 +40,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     // Insert data into database if no errors
     if (empty($errors)) {
-        $stmt = $conn->prepare("INSERT INTO orders (user_id, full_name, address, city, zip_code, payment_method, total_amount) VALUES (?, ?, ?, ?, ?, ?, ?)");
-        $stmt->bind_param("issssss", $user_id, $full_name, $address, $city, $zip_code, $payment_method, $total_amount);
+        $status = "Pending"; // Default status for a new order
+
+        // Corrected bind_param type for status
+        $stmt = $conn->prepare("INSERT INTO orders (user_id, full_name, address, city, zip_code, payment_method, total_amount, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+        $stmt->bind_param("isssssss", $user_id, $full_name, $address, $city, $zip_code, $payment_method, $total_amount, $status);
 
         if ($stmt->execute()) {
             echo "<script>alert('Order placed successfully!'); window.location.href = 'order_success.php';</script>";
@@ -46,11 +57,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 <?php include 'components/header.php'; ?>
 <style>
+    /* Styles for the checkout page */
     .checkout-page {
         font-family: 'Arial', sans-serif;
         background: linear-gradient(120deg, #f0f4ff, #dfe9f3);
         padding: 20px;
-        /* Space for outer page */
     }
 
     .checkout-container {
@@ -58,13 +69,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         padding: 40px;
         border-radius: 15px;
         box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-        /* Soft shadow for container */
         max-width: 900px;
-        /* Adjusted for larger container */
         margin: 20px auto;
-        /* Center the container with vertical spacing */
         width: 90%;
-        /* Make it responsive and stretch near screen edges */
     }
 
     .checkout-container h2 {
@@ -76,8 +83,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     .cart-summary,
     .shipping-info,
-    .payment-options,
-    .order-review {
+    .payment-options {
         margin-bottom: 20px;
         padding: 20px;
         border: 1px solid #ddd;
@@ -87,10 +93,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     .cart-summary h3,
     .shipping-info h3,
-    .payment-options h3,
-    .order-review h3 {
+    .payment-options h3 {
         color: #007bff;
-        /* Accent color for headings */
         margin-bottom: 10px;
         font-size: 18px;
     }
@@ -106,11 +110,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         margin-bottom: 5px;
     }
 
-    .form-group input[type="text"],
-    .form-group input[type="email"],
-    .form-group input[type="number"],
-    .form-group input[type="radio"],
-    .form-group input[type="checkbox"],
+    .form-group input,
     .form-group select {
         width: 100%;
         padding: 12px;
@@ -118,13 +118,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         border-radius: 8px;
         font-size: 14px;
         outline: none;
-        transition: border-color 0.3s ease;
-    }
-
-    .form-group input:focus,
-    .form-group select:focus {
-        border-color: #007bff;
-        box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
     }
 
     .checkout-btn {
@@ -132,51 +125,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         width: 100%;
         padding: 15px;
         background-color: #007bff;
-        /* Matches button colors in login and register pages */
         color: white;
         font-size: 16px;
         font-weight: bold;
         border: none;
         border-radius: 8px;
         cursor: pointer;
-        transition: background-color 0.3s ease;
         margin-top: 20px;
     }
 
     .checkout-btn:hover {
         background-color: #0056b3;
     }
-
-    /* Responsive adjustments */
-    @media (max-width: 768px) {
-        .checkout-container {
-            padding: 20px;
-        }
-
-        .cart-summary,
-        .shipping-info,
-        .payment-options,
-        .order-review {
-            padding: 15px;
-        }
-
-        .checkout-container h2 {
-            font-size: 22px;
-        }
-
-        .checkout-btn {
-            font-size: 14px;
-        }
-    }
-
-    /* Error message styling */
-    .error-message {
-        color: red;
-        font-size: 14px;
-        margin-top: 5px;
-    }
 </style>
-</head>
 
 <main>
     <div class="checkout-container">

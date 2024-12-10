@@ -16,7 +16,7 @@ if (session_status() === PHP_SESSION_NONE) {
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 
-<body>
+<body> 
     <header class="bg-light py-3 shadow">
         <div class="container d-flex flex-column flex-md-row justify-content-between align-items-center">
             <!-- Responsive Logo -->
@@ -52,6 +52,7 @@ if (session_status() === PHP_SESSION_NONE) {
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item"><a class="nav-link" href="../admin/index.php">Home</a></li>
                     <li class="nav-item"><a class="nav-link" href="add_book.php">Add Books</a></li>
+                    <li class="nav-item"><a class="nav-link" href="track_order.php">Manage Orders</a></li>
                 </ul>
                 <ul class="navbar-nav ml-auto">
 

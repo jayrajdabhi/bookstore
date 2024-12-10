@@ -56,6 +56,7 @@ if (session_status() === PHP_SESSION_NONE) {
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item"><a class="nav-link" href="index.php">Home</a></li>
                     <li class="nav-item"><a class="nav-link" href="about.php">About</a></li>
+                    <li class="nav-item"><a class="nav-link" href="track_order.php">Orders</a></li>
                     <li class="nav-item"><a class="nav-link" href="contact.php">Contact Us</a></li>
                 </ul>
                 <ul class="navbar-nav ml-auto">
