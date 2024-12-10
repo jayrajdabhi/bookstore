@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 19, 2024 at 11:20 PM
+-- Generation Time: Dec 10, 2024 at 11:32 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -124,17 +124,54 @@ CREATE TABLE `orders` (
   `zip_code` varchar(10) NOT NULL,
   `payment_method` varchar(50) NOT NULL,
   `total_amount` decimal(10,2) NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `status` varchar(255) NOT NULL DEFAULT 'Pending'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `orders`
 --
 
-INSERT INTO `orders` (`id`, `user_id`, `full_name`, `address`, `city`, `zip_code`, `payment_method`, `total_amount`, `created_at`) VALUES
-(1, 1, 'Nimit', '150 Darling st', 'Brantford', 'N3T6A7', 'Credit/Debit Card', 30.00, '2024-11-19 20:16:53'),
-(2, 1, 'Harsh', '150 Darling Street', 'Brantford', 'N3T6A7', 'PayPal', 30.00, '2024-11-19 20:27:34'),
-(3, 1, 'Utsav', '21 Diana Avenue', 'Brantford', 'N3T6A7', 'PayPal', 30.00, '2024-11-19 21:42:42');
+INSERT INTO `orders` (`id`, `user_id`, `full_name`, `address`, `city`, `zip_code`, `payment_method`, `total_amount`, `created_at`, `status`) VALUES
+(10, 6, 'Hello', '21 Diana Avenue', 'Brantford', 'N3T6A7', 'Credit/Debit Card', 15.60, '2024-12-10 21:42:27', 'Processing'),
+(11, 5, 'Jayraj', '21 Diana Avenue', 'Brantford', 'N3T6A7', 'Credit/Debit Card', 46.80, '2024-12-10 22:24:43', 'Pending');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `order_items`
+--
+
+CREATE TABLE `order_items` (
+  `id` int(11) NOT NULL,
+  `order_id` int(11) NOT NULL,
+  `book_id` int(11) NOT NULL,
+  `quantity` int(11) NOT NULL,
+  `price` decimal(10,2) NOT NULL,
+  `subtotal` decimal(10,2) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `order_items`
+--
+
+INSERT INTO `order_items` (`id`, `order_id`, `book_id`, `quantity`, `price`, `subtotal`, `created_at`) VALUES
+(2, 10, 12, 1, 15.60, 0.00, '2024-12-10 21:42:27'),
+(3, 11, 12, 3, 15.60, 0.00, '2024-12-10 22:24:43');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `order_status`
+--
+
+CREATE TABLE `order_status` (
+  `id` int(11) NOT NULL,
+  `order_id` int(11) NOT NULL,
+  `status` varchar(255) DEFAULT NULL,
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -157,7 +194,8 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `username`, `password`, `email`, `role`, `created_at`) VALUES
 (1, 'prv', '$2y$10$zswLWFTjQmjENq9OGryW..egb1VXTe.RHYYi5PePCXQ2pjOABGgtS', 'prvvelawala@gmail.com', 'customer', '2024-10-30 01:11:01'),
-(2, 'jayrajdabhi', '$2y$10$qYbN7GN1DnIlU9KA1C01nOKZiF.SD1mEvQEBiqXSt4WaYxirbGuxG', 'dabhi.jayraj200498@gmail.com', 'admin', '2024-11-19 19:46:19');
+(5, 'admin', '$2y$10$g9wobygZRv2GGSlP7/GqAeepR8dsvv44PgPrZ9BRyFZCN/9nRLi3e', 'admin@gmail.com', 'admin', '2024-12-10 21:36:55'),
+(6, 'customer', '$2y$10$Yny2qef1CLm2XndKWzse9uRxeqDwCDVsAJfL3o84Wx7GI7ILa.MIO', 'customer@gmail.com', 'customer', '2024-12-10 21:37:12');
 
 -- --------------------------------------------------------
 
@@ -177,12 +215,17 @@ CREATE TABLE `user_profiles` (
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+-- --------------------------------------------------------
+
 --
--- Dumping data for table `user_profiles`
+-- Table structure for table `wishlist`
 --
 
-INSERT INTO `user_profiles` (`profile_id`, `user_id`, `first_name`, `last_name`, `phone_number`, `address`, `profile_picture`, `created_at`, `updated_at`) VALUES
-(1, 2, 'Jayraj', 'Dabhi', '2269780954', 'jayraj dabhi', 'uploads/thumb-1920-136006g1.png', '2024-11-19 20:55:03', '2024-11-19 20:55:24');
+CREATE TABLE `wishlist` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `book_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Indexes for dumped tables
@@ -222,6 +265,21 @@ ALTER TABLE `orders`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `order_items`
+--
+ALTER TABLE `order_items`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `order_id` (`order_id`),
+  ADD KEY `book_id` (`book_id`);
+
+--
+-- Indexes for table `order_status`
+--
+ALTER TABLE `order_status`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `order_id` (`order_id`);
+
+--
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
@@ -234,6 +292,14 @@ ALTER TABLE `users`
 ALTER TABLE `user_profiles`
   ADD PRIMARY KEY (`profile_id`),
   ADD KEY `user_id` (`user_id`);
+
+--
+-- Indexes for table `wishlist`
+--
+ALTER TABLE `wishlist`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `user_id` (`user_id`),
+  ADD KEY `book_id` (`book_id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -267,19 +333,37 @@ ALTER TABLE `genres`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+
+--
+-- AUTO_INCREMENT for table `order_items`
+--
+ALTER TABLE `order_items`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `order_status`
+--
+ALTER TABLE `order_status`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `user_profiles`
 --
 ALTER TABLE `user_profiles`
   MODIFY `profile_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `wishlist`
+--
+ALTER TABLE `wishlist`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- Constraints for dumped tables
@@ -298,10 +382,30 @@ ALTER TABLE `feedback`
   ADD CONSTRAINT `feedback_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL;
 
 --
+-- Constraints for table `order_items`
+--
+ALTER TABLE `order_items`
+  ADD CONSTRAINT `order_items_ibfk_1` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `order_items_ibfk_2` FOREIGN KEY (`book_id`) REFERENCES `books` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `order_status`
+--
+ALTER TABLE `order_status`
+  ADD CONSTRAINT `order_status_ibfk_1` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`) ON DELETE CASCADE;
+
+--
 -- Constraints for table `user_profiles`
 --
 ALTER TABLE `user_profiles`
   ADD CONSTRAINT `user_profiles_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `wishlist`
+--
+ALTER TABLE `wishlist`
+  ADD CONSTRAINT `wishlist_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `wishlist_ibfk_2` FOREIGN KEY (`book_id`) REFERENCES `books` (`id`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
