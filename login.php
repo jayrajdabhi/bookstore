@@ -9,11 +9,7 @@ if (isset($_SESSION['user_id'])) {
 }
 
 // Include database connection
-$conn = new mysqli('localhost', 'root', '', 'bookstore');
-
-if ($conn->connect_error) {
-    die('Connection Failed: ' . $conn->connect_error);
-}
+include 'config/database.php';
 
 // Handle form submission
 $errors = [];
@@ -34,7 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // If no errors, proceed with login
     if (empty($errors)) {
         $sql = "SELECT * FROM users WHERE email = ?";
-        $stmt = $conn->prepare($sql);
+        $stmt = $db->prepare($sql);
         $stmt->bind_param("s", $email);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -43,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if ($user && password_verify($password, $user['password'])) {
             $_SESSION['user_id'] = $user['id'];
             $_SESSION['role'] = $user['role'];
-            $_SESSION['username'] = $user['username']; 
+            $_SESSION['username'] = $user['username'];
 
             if ($user['role'] == 'admin') {
                 header("Location: admin/index.php");

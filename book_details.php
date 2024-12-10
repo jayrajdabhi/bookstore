@@ -101,6 +101,21 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
         echo "<p>Query error. Please try again later.</p>";
         exit;
     }
+
+    // Fetch related books based on genre
+    $genre = $book['genre']; // Get the genre of the current book
+    $relatedBooksQuery = "
+        SELECT b.id, b.name, b.author, b.price, b.image
+        FROM books b
+        LEFT JOIN genres g ON b.genre_id = g.id
+        WHERE g.genre_name = ? AND b.id != ?
+        LIMIT 4
+    ";
+    $relatedBooksStmt = $db->prepare($relatedBooksQuery);
+    $relatedBooksStmt->bind_param("si", $genre, $book_id);
+    $relatedBooksStmt->execute();
+    $relatedBooksResult = $relatedBooksStmt->get_result();
+    $relatedBooks = $relatedBooksResult->fetch_all(MYSQLI_ASSOC);
 } else {
     echo "<p>Invalid book ID.</p>";
     exit;
@@ -163,6 +178,28 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
                     <?php unset($_SESSION['message']); ?>
                 </div>
             <?php endif; ?>
+        </div>
+    </div>
+
+    <!-- Recommended Books Section -->
+    <div class="mt-5">
+        <h3>Recommended Books</h3>
+        <div class="row">
+            <?php foreach ($relatedBooks as $relatedBook): ?>
+                <div class="col-md-3">
+                    <div class="card">
+                        <img src="img/<?php echo htmlspecialchars($relatedBook['image']); ?>" class="card-img-top"
+                            alt="<?php echo htmlspecialchars($relatedBook['name']); ?>">
+                        <div class="card-body">
+                            <h5 class="card-title"><?php echo htmlspecialchars($relatedBook['name']); ?></h5>
+                            <p class="card-text">Author: <?php echo htmlspecialchars($relatedBook['author']); ?></p>
+                            <p class="card-text">Price: $<?php echo number_format($relatedBook['price'], 2); ?></p>
+                            <a href="book_details.php?id=<?php echo $relatedBook['id']; ?>" class="btn btn-primary">View
+                                Details</a>
+                        </div>
+                    </div>
+                </div>
+            <?php endforeach; ?>
         </div>
     </div>
 </main>

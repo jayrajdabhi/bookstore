@@ -2,11 +2,7 @@
 // Start session
 session_start();
 
-$conn = new mysqli('localhost', 'root', '', 'bookstore');
-
-if ($conn->connect_error) {
-    die('Connection Failed: ' . $conn->connect_error);
-}
+include 'config/database.php';
 
 $errors = [];
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -37,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (empty($errors)) {
         // Check if username or email already exists
         $sql = "SELECT * FROM users WHERE username = ? OR email = ?";
-        $stmt = $conn->prepare($sql);
+        $stmt = $db->prepare($sql);
         $stmt->bind_param("ss", $username, $email);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -49,7 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
             // Insert user into the database
             $sql = "INSERT INTO users (username, email, password, role) VALUES (?, ?, ?, ?)";
-            $stmt = $conn->prepare($sql);
+            $stmt = $db->prepare($sql);
             $stmt->bind_param("ssss", $username, $email, $hashed_password, $role);
 
             if ($stmt->execute()) {

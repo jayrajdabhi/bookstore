@@ -3,7 +3,7 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-// Assuming you have a role column in the users table or a way to check if the user is admin
+// Check if the user is logged in and if they are an admin
 $isAdmin = isset($_SESSION['role']) && $_SESSION['role'] === 'admin';
 
 if (!isset($_SESSION['user_id'])) {
@@ -11,43 +11,36 @@ if (!isset($_SESSION['user_id'])) {
     exit;
 }
 
-$user_id = $_SESSION['user_id'];
+$user_id = $_SESSION['user_id']; // Get the current user ID from the session
 
-// Database connection
-$servername = "localhost";
-$username = "root";
-$password = "";
-$database = "bookstore";
+// Include the database connection
+include '../config/database.php';
 
-$conn = new mysqli($servername, $username, $password, $database);
-
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
-
+// Update order status if the request is POST and the user is an admin
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && $isAdmin) {
-    // Update order status
     $order_id = $_POST['order_id'];
     $new_status = $_POST['status'];
 
+    // Update order status in the database
     $update_sql = "UPDATE orders SET status = ? WHERE id = ?";
-    $update_stmt = $conn->prepare($update_sql);
+    $update_stmt = $db->prepare($update_sql);
     $update_stmt->bind_param("si", $new_status, $order_id);
     $update_stmt->execute();
     $update_stmt->close();
 }
 
-// Fetch orders
+// SQL query to fetch orders
+// Admin can see all orders, and users can only see their own orders
 $sql = "
 SELECT id, full_name, address, city, zip_code, 
        payment_method, total_amount, created_at, status 
 FROM orders 
-WHERE user_id = ? OR ? 
+WHERE user_id = ? OR ? = 1 
 ORDER BY created_at DESC
 ";
 
-$stmt = $conn->prepare($sql);
-$stmt->bind_param("ii", $user_id, $isAdmin);
+$stmt = $db->prepare($sql);
+$stmt->bind_param("ii", $user_id, $isAdmin); // Bind user_id for normal users and admin check
 $stmt->execute();
 $result = $stmt->get_result();
 ?>
@@ -67,7 +60,7 @@ $result = $stmt->get_result();
                     <th>Payment Method</th>
                     <th>Total Amount</th>
                     <th>Status</th>
-                    <th>Actions</th>
+
                 </tr>
             </thead>
             <tbody>
@@ -85,12 +78,12 @@ $result = $stmt->get_result();
                                 <form method="POST" style="display:inline;">
                                     <input type="hidden" name="order_id" value="<?php echo $row['id']; ?>">
                                     <select name="status" class="form-control" onchange="this.form.submit()">
-                                        <option value="Pending" <?php echo $row['status'] === 'Pending' ? 'selected' : ''; ?>>
-                                            Pending</option>
+                                        <option value="Pending" <?php echo $row['status'] === 'Pending' ? 'selected' : ''; ?>>Pending
+                                        </option>
                                         <option value="Processing" <?php echo $row['status'] === 'Processing' ? 'selected' : ''; ?>>
                                             Processing</option>
-                                        <option value="Shipped" <?php echo $row['status'] === 'Shipped' ? 'selected' : ''; ?>>
-                                            Shipped</option>
+                                        <option value="Shipped" <?php echo $row['status'] === 'Shipped' ? 'selected' : ''; ?>>Shipped
+                                        </option>
                                         <option value="Delivered" <?php echo $row['status'] === 'Delivered' ? 'selected' : ''; ?>>
                                             Delivered</option>
                                         <option value="Cancelled" <?php echo $row['status'] === 'Cancelled' ? 'selected' : ''; ?>>
@@ -113,7 +106,9 @@ $result = $stmt->get_result();
     <?php endif; ?>
 </div>
 <?php include 'footer.php'; ?>
+
 <?php
+// Close the prepared statement and the database connection
 $stmt->close();
-$conn->close();
+$db->close();
 ?>

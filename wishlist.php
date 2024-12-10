@@ -2,10 +2,7 @@
 session_start();
 
 // Database connection
-$conn = new mysqli('localhost', 'root', '', 'bookstore');
-if ($conn->connect_error) {
-    die('Connection Failed: ' . $conn->connect_error);
-}
+include 'config/database.php';
 
 // Check if user is logged in
 if (!isset($_SESSION['user_id'])) {
@@ -17,7 +14,7 @@ $user_id = $_SESSION['user_id'];
 
 // Fetch wishlist items from database
 $query = "SELECT b.* FROM wishlist w JOIN books b ON w.book_id = b.id WHERE w.user_id = ?";
-$stmt = $conn->prepare($query);
+$stmt = $db->prepare($query);
 $stmt->bind_param("i", $user_id);
 $stmt->execute();
 $result = $stmt->get_result();
@@ -27,7 +24,7 @@ $wishlist_items = $result->fetch_all(MYSQLI_ASSOC);
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'remove') {
     $book_id = $_POST['book_id'];
     $delete_query = "DELETE FROM wishlist WHERE user_id = ? AND book_id = ?";
-    $delete_stmt = $conn->prepare($delete_query);
+    $delete_stmt = $db->prepare($delete_query);
     $delete_stmt->bind_param("ii", $user_id, $book_id);
     $delete_stmt->execute();
     header("Location: wishlist.php");

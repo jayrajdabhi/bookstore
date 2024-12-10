@@ -5,11 +5,11 @@ $pass = '';
 $dbname = 'bookstore';
 
 // Create connection
-$conn = new mysqli($host, $user, $pass, $dbname);
+$db = new mysqli($host, $user, $pass, $dbname);
 
 // Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
+if ($db->connect_error) {
+    die("Connection failed: " . $db->connect_error);
 }
 
 $error_message = '';
@@ -33,17 +33,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['name'], $_POST['email'
         $error_message = "Please enter your message.";
     } else {
         // Insert data into database
-        $name = $conn->real_escape_string($name);
-        $email = $conn->real_escape_string($email);
-        $subject = $conn->real_escape_string($subject);
-        $messageText = $conn->real_escape_string($messageText);
+        $name = $db->real_escape_string($name);
+        $email = $db->real_escape_string($email);
+        $subject = $db->real_escape_string($subject);
+        $messageText = $db->real_escape_string($messageText);
 
         $sql = "INSERT INTO contact_us (name, email, subject, message) VALUES ('$name', '$email', '$subject', '$messageText')";
 
-        if ($conn->query($sql) === TRUE) {
+        if ($db->query($sql) === TRUE) {
             $success_message = "Thank you for contacting us! We will get back to you shortly.";
         } else {
-            $error_message = "Error: " . $sql . "<br>" . $conn->error;
+            $error_message = "Error: " . $sql . "<br>" . $db->error;
         }
     }
 }
@@ -58,21 +58,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['feedback'])) {
         $error_message = "Please enter your feedback.";
     } else {
         // Sanitize feedback text
-        $feedbackText = $conn->real_escape_string($feedbackText);
+        $feedbackText = $db->real_escape_string($feedbackText);
 
         // Insert feedback into the database
         $sql = "INSERT INTO feedback (user_id, feedback_text) VALUES ('$userId', '$feedbackText')";
 
-        if ($conn->query($sql) === TRUE) {
+        if ($db->query($sql) === TRUE) {
             $success_message = "Thank you for your feedback!";
         } else {
-            $error_message = "Error: " . $sql . "<br>" . $conn->error;
+            $error_message = "Error: " . $sql . "<br>" . $db->error;
         }
     }
 }
 
 // Close the connection
-$conn->close();
+$db->close();
 ?>
 
 <?php include 'components/header.php'; ?>

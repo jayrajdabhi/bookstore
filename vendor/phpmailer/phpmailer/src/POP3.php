@@ -121,7 +121,7 @@ class POP3
      *
      * @var bool
      */
-    protected $connected = false;
+    protected $dbected = false;
 
     /**
      * Error container.
@@ -364,7 +364,7 @@ class POP3
 
         // Clean up attributes.
         $this->connected = false;
-        $this->pop_conn  = false;
+        $this->pop_conn = false;
     }
 
     /**

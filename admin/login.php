@@ -8,12 +8,7 @@ if (isset($_SESSION['user_id'])) {
     exit();
 }
 
-// Include database connection
-$conn = new mysqli('localhost', 'root', '', 'bookstore');
-
-if ($conn->connect_error) {
-    die('Connection Failed: ' . $conn->connect_error);
-}
+include 'config/database.php';
 
 // Handle form submission
 $errors = [];
@@ -34,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // If no errors, proceed with login
     if (empty($errors)) {
         $sql = "SELECT * FROM users WHERE email = ?";
-        $stmt = $conn->prepare($sql);
+        $stmt = $db->prepare($sql);
         $stmt->bind_param("s", $email);
         $stmt->execute();
         $result = $stmt->get_result();

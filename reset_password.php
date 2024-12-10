@@ -1,10 +1,6 @@
 <?php
 session_start();
-$conn = new mysqli('localhost', 'root', '', 'bookstore');
-
-if ($conn->connect_error) {
-    die('Connection Failed: ' . $conn->connect_error);
-}
+include 'config/database.php';
 
 $message = "";
 $token = isset($_GET['token']) ? $_GET['token'] : null;
@@ -12,7 +8,7 @@ $token = isset($_GET['token']) ? $_GET['token'] : null;
 if ($token) {
     // Verify the reset token
     $sql = "SELECT * FROM users WHERE reset_token = ? AND reset_expires > NOW()";
-    $stmt = $conn->prepare($sql);
+    $stmt = $db->prepare($sql);
     $stmt->bind_param("s", $token);
     $stmt->execute();
     $result = $stmt->get_result();
@@ -33,7 +29,7 @@ if ($token) {
 
                 // Update password in the database and clear the reset token
                 $sql = "UPDATE users SET password = ?, reset_token = NULL, reset_expires = NULL WHERE reset_token = ?";
-                $stmt = $conn->prepare($sql);
+                $stmt = $db->prepare($sql);
                 $stmt->bind_param("ss", $hashed_password, $token);
                 $stmt->execute();
 
@@ -50,16 +46,18 @@ if ($token) {
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reset Password</title>
     <link rel="stylesheet" href="styles.css">
 </head>
+
 <body class="login-page">
     <div class="login-container">
         <h2>Reset Password</h2>
-        
+
         <?php if (!empty($message)): ?>
             <p class="message"><?php echo $message; ?></p>
         <?php endif; ?>
@@ -73,4 +71,5 @@ if ($token) {
         <?php endif; ?>
     </div>
 </body>
+
 </html>

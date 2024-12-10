@@ -2,11 +2,7 @@
 // Start session
 session_start();
 
-// Database connection
-$conn = new mysqli('localhost', 'root', '', 'bookstore');
-if ($conn->connect_error) {
-    die('Connection Failed: ' . $conn->connect_error);
-}
+include 'config/database.php';
 
 // Check if user is logged in
 if (!isset($_SESSION['user_id'])) {
@@ -20,7 +16,7 @@ $sql = "SELECT u.username, u.email, up.first_name, up.last_name, up.phone_number
         FROM users u 
         LEFT JOIN user_profiles up ON u.id = up.user_id 
         WHERE u.id = ?";
-$stmt = $conn->prepare($sql);
+$stmt = $db->prepare($sql);
 $stmt->bind_param("i", $user_id);
 $stmt->execute();
 $result = $stmt->get_result();
@@ -63,7 +59,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['update_profile'])) {
     if (empty($errors)) {
         // Check if profile exists
         $sql = "SELECT * FROM user_profiles WHERE user_id = ?";
-        $stmt = $conn->prepare($sql);
+        $stmt = $db->prepare($sql);
         $stmt->bind_param("i", $user_id);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -73,13 +69,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['update_profile'])) {
             $sql = "UPDATE user_profiles 
                     SET first_name = ?, last_name = ?, phone_number = ?, address = ?, profile_picture = ? 
                     WHERE user_id = ?";
-            $stmt = $conn->prepare($sql);
+            $stmt = $db->prepare($sql);
             $stmt->bind_param("sssssi", $first_name, $last_name, $phone_number, $address, $profile_picture, $user_id);
         } else {
             // Insert new profile data
             $sql = "INSERT INTO user_profiles (user_id, first_name, last_name, phone_number, address, profile_picture) 
                     VALUES (?, ?, ?, ?, ?, ?)";
-            $stmt = $conn->prepare($sql);
+            $stmt = $db->prepare($sql);
             $stmt->bind_param("isssss", $user_id, $first_name, $last_name, $phone_number, $address, $profile_picture);
         }
 

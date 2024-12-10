@@ -3,10 +3,7 @@ session_start();
 
 require 'email_config.php'; // Include PHPMailer configuration
 
-$conn = new mysqli('localhost', 'root', '', 'bookstore');
-if ($conn->connect_error) {
-    die('Connection Failed: ' . $conn->connect_error);
-}
+include 'config/database.php';
 
 $message = "";
 
@@ -20,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     } else {
         // Check if email exists
         $sql = "SELECT * FROM users WHERE email = ?";
-        $stmt = $conn->prepare($sql);
+        $stmt = $db->prepare($sql);
         $stmt->bind_param("s", $email);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -31,13 +28,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
             // Store token in database
             $sql = "UPDATE users SET reset_token = ?, reset_expires = ? WHERE email = ?";
-            $stmt = $conn->prepare($sql);
+            $stmt = $db->prepare($sql);
             $stmt->bind_param("sss", $token, $expires_at, $email);
             $stmt->execute();
 
             // Send password reset email
             $reset_link = "http://localhost/bookstore-main/reset_password.php?token=" . $token;
-            
+
             $message = sendPasswordResetEmail($email, $reset_link);
         } else {
             $message = "Email not found.";
@@ -48,16 +45,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Forgot Password</title>
     <link rel="stylesheet" href="styles.css">
 </head>
+
 <body class="login-page">
     <div class="login-container">
         <h2>Forgot Password</h2>
-        
+
         <!-- Display any messages if available -->
         <?php if (!empty($message)): ?>
             <p class="message"><?php echo $message; ?></p>
@@ -73,4 +72,5 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         </div>
     </div>
 </body>
+
 </html>

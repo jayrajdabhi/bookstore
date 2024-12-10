@@ -2,11 +2,7 @@
 session_start();
 
 // Include database connection
-$conn = new mysqli('localhost', 'root', '', 'bookstore');
-
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+include 'config/database.php';
 
 // Ensure the user is logged in
 if (!isset($_SESSION['user_id'])) {
@@ -25,7 +21,7 @@ if (isset($_SESSION['cart']) && !empty($_SESSION['cart'])) {
     $cart_ids = array_keys($_SESSION['cart']);
     $placeholders = implode(',', array_fill(0, count($cart_ids), '?'));
     $query = "SELECT * FROM books WHERE id IN ($placeholders)";
-    $stmt = $conn->prepare($query);
+    $stmt = $db->prepare($query);
     $stmt->bind_param(str_repeat('i', count($cart_ids)), ...$cart_ids);
     $stmt->execute();
     $result = $stmt->get_result();
@@ -61,14 +57,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Insert data into database if no errors
     if (empty($errors)) {
         // Insert order details
-        $stmt = $conn->prepare("INSERT INTO orders (user_id, full_name, address, city, zip_code, payment_method, total_amount) VALUES (?, ?, ?, ?, ?, ?, ?)");
+        $stmt = $db->prepare("INSERT INTO orders (user_id, full_name, address, city, zip_code, payment_method, total_amount) VALUES (?, ?, ?, ?, ?, ?, ?)");
         $stmt->bind_param("isssssd", $user_id, $full_name, $address, $city, $zip_code, $payment_method, $total_amount);
 
         if ($stmt->execute()) {
             $order_id = $stmt->insert_id;
 
             // Insert individual cart items into order_items table
-            $stmt_item = $conn->prepare("INSERT INTO order_items (order_id, book_id, quantity, price) VALUES (?, ?, ?, ?)");
+            $stmt_item = $db->prepare("INSERT INTO order_items (order_id, book_id, quantity, price) VALUES (?, ?, ?, ?)");
             foreach ($cart_items as $item) {
                 $book_id = $item['id'];
                 $quantity = $_SESSION['cart'][$book_id]['quantity'];
